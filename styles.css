@@ -36,7 +36,8 @@ body {
 header {
   background-color: #ffffff;
   display: flex;
-  justify-content: space-between;
+  /* Center the navigation since there is no logo on the left */
+  justify-content: center;
   align-items: center;
   padding: 1rem 2rem;
   position: sticky;
@@ -72,8 +73,11 @@ header nav a:hover {
 /* Hero section */
 .hero {
   position: relative;
-  height: 70vh;
-  background-image: url('images/hero.png');
+  /* Fill the viewport to showcase the stripes painting */
+  height: 100vh;
+  /* Use one of the artist's paintings as the hero background */
+  /* The stripes piece creates an abstract backdrop without distracting text */
+  background-image: url('images/work5.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -83,16 +87,8 @@ header nav a:hover {
 }
 
 /* Dark overlay to ensure text legibility on the hero image */
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 0;
-}
+/* Remove the dark overlay so the hero image retains its original brightness */
+
 
 /* Content container for hero text */
 .hero-content {
@@ -162,8 +158,9 @@ header nav a:hover {
 
 .art-card img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  /* Allow images to retain their aspect ratio without cropping */
+  height: auto;
+  object-fit: contain;
 }
 
 .art-card .art-content {
@@ -196,6 +193,19 @@ header nav a:hover {
 
 .about-text {
   flex: 1;
+}
+
+/* Single artwork page */
+.single-artwork {
+  text-align: center;
+}
+
+.single-artwork img {
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .about-text h2 {

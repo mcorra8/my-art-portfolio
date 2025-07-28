@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Michael Corra</title>
+  <title>Artwork 7 — Michael Corra</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Site header with simple navigation (artist name appears in hero) -->
   <header>
     <nav>
       <ul>
@@ -17,22 +16,14 @@
       </ul>
     </nav>
   </header>
-
-  <!-- Hero section with the artist name overlayed on the stripes painting -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Michael Corra</h1>
+  <section class="section">
+    <div class="single-artwork">
+      <img src="images/work7.jpg" alt="Artwork" />
     </div>
   </section>
-
-  <!-- The home page focuses solely on the hero image; no additional gallery previews are shown -->
-
-  <!-- Footer with copyright notice -->
   <footer>
     <p>&copy; <span id="year"></span> Michael Corra. All rights reserved.</p>
   </footer>
-
-  <!-- Script updates the current year automatically -->
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
