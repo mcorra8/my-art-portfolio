@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About &mdash; My Art Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Shared navigation -->
+  <header>
+    <a href="index.html" class="logo">My Art Portfolio</a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- About section -->
+  <section class="section about">
+    <div class="about-text">
+      <h2>About the Artist</h2>
+      <p>
+        Hello! I am an artist inspired by the harmony of colour and emotion. My work
+        explores the intersection between abstract expressionism and personal
+        narrative, using bold strokes and vibrant palettes to convey feelings
+        that words alone cannot. Every piece is an invitation for viewers to
+        interpret their own story within the textures and hues.
+      </p>
+      <p>
+        Over the years I have experimented with oil, acrylic and mixed media on
+        canvas. I believe that the medium should serve the message, and I choose
+        materials that best express the energy of each idea. When you look at
+        these paintings, you are seeing not only pigment on canvas but also the
+        culmination of countless hours of contemplation and creation.
+      </p>
+      <p>
+        My artwork has been exhibited in regional galleries and international
+        shows, and I have had the honour of receiving several awards for my
+        contributions to contemporary abstract art. Through this website I hope
+        to share my journey with you and connect with collectors and fellow art
+        lovers around the world.
+      </p>
+    </div>
+    <div class="about-photo">
+      <!-- Reusing the hero image here to visually tie the pages together. Feel free to replace this with a portrait or studio shot. -->
+      <img src="images/hero.png" alt="Abstract artwork displayed in a vibrant composition" />
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <span id="year"></span> My Art Portfolio. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

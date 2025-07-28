@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Art Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Site header with logo and navigation -->
+  <header>
+    <a href="index.html" class="logo">My Art Portfolio</a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero section showcasing a headline, tagline, and call‑to‑action -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to My Art World</h1>
+      <p>Explore a collection of colourful creations and expressive artworks that tell a story.</p>
+      <a href="gallery.html" class="btn">View Gallery</a>
+    </div>
+  </section>
+
+  <!-- Preview of latest works on the home page -->
+  <section class="section">
+    <h2>Latest Creations</h2>
+    <div class="gallery-grid">
+      <div class="art-card">
+        <img src="images/art1.jpg" alt="Abstract painting with vibrant warm colours and cool blues" />
+        <div class="art-content">
+          <h3>Untitled #1</h3>
+          <p>A vibrant composition exploring the interplay between warm and cool hues.</p>
+        </div>
+      </div>
+      <div class="art-card">
+        <img src="images/art2.jpg" alt="Abstract art with dark blues and flashes of orange and red" />
+        <div class="art-content">
+          <h3>Untitled #2</h3>
+          <p>Dynamic strokes create a sense of depth and movement in this piece.</p>
+        </div>
+      </div>
+      <div class="art-card">
+        <img src="images/art3.jpg" alt="Abstract artwork with rich reds, blues, and gold tones" />
+        <div class="art-content">
+          <h3>Untitled #3</h3>
+          <p>Bold brushstrokes convey emotion through an explosion of colour.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with copyright notice -->
+  <footer>
+    <p>&copy; <span id="year"></span> My Art Portfolio. All rights reserved.</p>
+  </footer>
+
+  <!-- Script updates the current year automatically -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
