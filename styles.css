@@ -158,9 +158,11 @@ header nav a:hover {
 
 .art-card img {
   width: 100%;
-  /* Allow images to retain their aspect ratio without cropping */
   height: auto;
+  max-height: 500px;
   object-fit: contain;
+}
+
 }
 
 .art-card .art-content {
