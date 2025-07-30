@@ -1,14 +1,21 @@
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.art-card {
+  overflow: hidden;
 }
 
 .art-card img {
   width: 100%;
   height: auto;
-  max-height: 300px;
-  object-fit: contain;
   display: block;
+  object-fit: contain;
+  max-height: 300px;
+  border: 1px solid #ccc;
 }
