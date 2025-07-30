@@ -1,28 +1,46 @@
-<section class="section">
-  <div class="gallery-grid">
-    <div class="art-card"><a href="work1.html"><img src="images/work1.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="work2.html"><img src="images/work2.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="work3.html"><img src="images/work3.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="work4.html"><img src="images/work4.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="work5.html"><img src="images/work5.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="work6.html"><img src="images/work6.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="work7.html"><img src="images/work7.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_1151.jpeg"><img src="images/IMG_1151.jpeg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_1152.jpeg"><img src="images/IMG_1152.jpeg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_1153.jpeg"><img src="images/IMG_1153.jpeg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_1154.jpeg"><img src="images/IMG_1154.jpeg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_1157.jpeg"><img src="images/IMG_1157.jpeg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_1149.jpeg"><img src="images/IMG_1149.jpeg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/FullSizeRender.jpeg"><img src="images/FullSizeRender.jpeg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_5741.jpg"><img src="images/IMG_5741.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_1168.jpg"><img src="images/IMG_1168.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_5843_2.jpg"><img src="images/IMG_5843_2.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_6765_2.jpg"><img src="images/IMG_6765_2.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/IMG_7548_3.jpg"><img src="images/IMG_7548_3.jpg" alt="Artwork" /></a></div>
-    <div class="art-card"><a href="images/FullSizeRender_3.jpg"><img src="images/FullSizeRender_3.jpg" alt="Artwork" /></a></div>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Michael Corra</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
+  <!-- Gallery section -->
+  <section class="section">
+    <div class="gallery-grid">
+      <div class="art-card"><a href="work1.html"><img src="images/work1.jpg" alt="Artwork" /></a></div>
+      <div class="art-card"><a href="work2.html"><img src="images/work2.jpg" alt="Artwork" /></a></div>
+      <div class="art-card"><a href="work3.html"><img src="images/work3.jpg" alt="Artwork" /></a></div>
+      <div class="art-card"><a href="work4.html"><img src="images/work4.jpg" alt="Artwork" /></a></div>
+      <div class="art-card"><a href="work5.html"><img src="images/work5.jpg" alt="Artwork" /></a></div>
+      <div class="art-card"><a href="work6.html"><img src="images/work6.jpg" alt="Artwork" /></a></div>
+      <div class="art-card"><a href="work7.html"><img src="images/work7.jpg" alt="Artwork" /></a></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <span id="year"></span> Michael Corra. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
 
 
 
