@@ -144,6 +144,7 @@ header nav a:hover {
   gap: 1.5rem;
 }
 
+<div class="gallery-grid">
 .art-card {
   background-color: #ffffff;
   border-radius: 4px;
@@ -178,7 +179,18 @@ header nav a:hover {
   font-size: 0.9rem;
   color: #555555;
 }
+.art-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
 
+.art-card {
+  flex: 1 1 calc(33.333% - 1rem);
+  box-sizing: border-box;
+}
+</div>
 /* About page layout */
 .about {
   display: flex;
