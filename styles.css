@@ -1,6 +1,6 @@
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   padding: 40px;
   max-width: 1400px;
@@ -16,6 +16,5 @@
   height: auto;
   display: block;
   object-fit: contain;
-  max-height: 300px;
   border: 1px solid #ccc;
 }
