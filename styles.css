@@ -159,8 +159,10 @@ header nav a:hover {
 .art-card img {
   width: 100%;
   height: auto;
-  max-height: 350px;
+  max-height: 350px;  /* ← try 350 here */
   object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 .art-card .art-content {
