@@ -1,25 +1,11 @@
-// Minimal, robust gallery + single-work loader (relative paths only)
+// Minimal, explicit loader (exact filenames, relative paths)
 (function () {
-  const V = '27'; // change to force refresh
+  const V = '28'; // bump to bust caches
 
   async function loadList() {
     const res = await fetch(`images/images.json?v=${V}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('images.json not found');
     return res.json();
-  }
-
-  const baseNoExt = (n) => (n.lastIndexOf('.') > -1 ? n.slice(0, n.lastIndexOf('.')) : n);
-
-  function setWithFallback(img, src) {
-    const base = baseNoExt(src);
-    const tries = [src, `${base}.jpg`, `${base}.jpeg`, `${base}.JPG`];
-    let i = 0;
-    const go = () => {
-      if (i >= tries.length) return;
-      img.src = `images/${tries[i]}?v=${V}`;
-      img.onerror = () => { i += 1; go(); };
-    };
-    go();
   }
 
   function renderGrid(el, items) {
@@ -32,10 +18,15 @@
       a.href = `work.html?i=${i}&v=${V}`;
 
       const img = document.createElement('img');
+      img.src = `images/${it.src}?v=${V}`;
       img.alt = it.alt || `Painting ${i + 1}`;
       img.loading = 'lazy';
       img.decoding = 'async';
-      setWithFallback(img, it.src);
+      img.onerror = () => {
+        console.error('Missing thumbnail:', `images/${it.src}`);
+        img.style.opacity = '0.25';
+        img.title = `Missing: images/${it.src}`;
+      };
 
       a.appendChild(img);
       card.appendChild(a);
@@ -50,23 +41,25 @@
 
     el.innerHTML = '';
     const img = document.createElement('img');
+    img.src = `images/${it.src}?v=${V}`;
     img.alt = it.alt || `Painting ${idx + 1}`;
-    setWithFallback(img, it.src);
+    img.loading = 'eager';
+    img.onerror = () => {
+      console.error('Missing large image:', `images/${it.src}`);
+      el.innerHTML = `Image missing: images/${it.src}`;
+    };
     el.appendChild(img);
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
     const items = await loadList();
 
-    // home page mini grid — show first 6
-    const selected = document.querySelector('#selected-grid');
-    if (selected) renderGrid(selected, items.slice(0, 6));
+    const homeGrid = document.querySelector('#selected-grid');
+    if (homeGrid) renderGrid(homeGrid, items.slice(0, 6));
 
-    // full gallery
-    const grid = document.querySelector('#gallery-grid');
-    if (grid) renderGrid(grid, items);
+    const galleryGrid = document.querySelector('#gallery-grid');
+    if (galleryGrid) renderGrid(galleryGrid, items);
 
-    // single work
     const work = document.querySelector('.work');
     if (work) renderWork(work, items);
   });
