@@ -20,6 +20,46 @@
     <div class="work"></div>
   </main>
 
-  <script src="script.js?v=28"></script>
+  <script>
+    // Load the work images dynamically
+    const workContainer = document.querySelector('.work');
+    const images = [
+      'images/painting-01.jpg',
+      'images/painting-02.jpg',
+      'images/painting-03.jpg',
+      'images/painting-04.jpg',
+      'images/painting-05.jpg',
+      'images/painting-06.jpg',
+      'images/painting-07.jpg',
+      'images/painting-08.jpg',
+      'images/painting-09.jpg',
+      'images/painting-10.jpg'
+    ];
+
+    images.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src + '?v=99'; // cache-buster
+      img.alt = 'Artwork';
+      img.classList.add('thumbnail');
+
+      img.addEventListener('click', () => {
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+
+        const largeImg = document.createElement('img');
+        largeImg.src = src + '?v=99';
+        largeImg.alt = 'Artwork';
+
+        overlay.appendChild(largeImg);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', () => {
+          overlay.remove();
+        });
+      });
+
+      workContainer.appendChild(img);
+    });
+  </script>
 </body>
 </html>
