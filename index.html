@@ -1,34 +1,33 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Michael Corra — Artwork</title>
-  <meta name="description" content="Portfolio of Michael Corra">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="styles.css?v=27" />
 </head>
 <body>
-  <header class="header">
-    <div class="container nav">
-      <a class="brand" href="/index.html">Michael Corra</a>
-      <nav class="menu">
-        <a href="/gallery.html">Gallery</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
-      </nav>
-    </div>
+  <header class="site-header">
+    <a class="site-title" href="index.html">Michael Corra</a>
+    <nav class="site-nav">
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
   </header>
 
-  <section class="hero">
-    <h1>Michael Corra</h1>
+  <!-- Hero uses the brush-stroke close-up you uploaded -->
+  <section class="hero" style="--hero:url('images/IMG_0922.jpeg');">
+    <div class="hero-inner">
+      <h1>Michael Corra</h1>
+    </div>
   </section>
 
   <main class="container">
-    <div class="grid" id="selected-grid"></div>
+    <!-- small preview grid on the home page -->
+    <div id="selected-grid" class="gallery-grid"></div>
   </main>
 
-  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
-  <script src="/script.js?v=13"></script>
-  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+  <script src="script.js?v=27"></script>
 </body>
 </html>
