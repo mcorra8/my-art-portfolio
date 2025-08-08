@@ -1,47 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gallery — Michael Corra</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Nine-piece selection of paintings by Michael Corra.">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <!-- Navigation -->
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="/index.html">Michael Corra</a>
+      <nav>
+        <span class="burger" aria-label="menu">☰</span>
+        <div class="menu">
+          <a href="/gallery.html">Gallery</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <!-- Gallery section -->
-  <section class="section">
-    <div class="gallery-grid">
-      <div class="art-card"><a href="work1.html"><img src="images/work1.jpg" alt="Artwork" /></a></div>
-      <div class="art-card"><a href="work2.html"><img src="images/work2.jpg" alt="Artwork" /></a></div>
-      <div class="art-card"><a href="work3.html"><img src="images/work3.jpg" alt="Artwork" /></a></div>
-      <div class="art-card"><a href="work4.html"><img src="images/work4.jpg" alt="Artwork" /></a></div>
-      <div class="art-card"><a href="work5.html"><img src="images/work5.jpg" alt="Artwork" /></a></div>
-      <div class="art-card"><a href="work6.html"><img src="images/work6.jpg" alt="Artwork" /></a></div>
-      <div class="art-card"><a href="work7.html"><img src="images/work7.jpg" alt="Artwork" /></a></div>
-    </div>
-  </section>
+  <main class="container">
+    <h1>Gallery</h1>
+    <div class="grid" id="gallery-grid"></div>
+  </main>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; <span id="year"></span> Michael Corra. All rights reserved.</p>
-  </footer>
+  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
 
+  <script src="/script.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    loadGallery('#gallery-grid');
   </script>
 </body>
 </html>
-
-
-
-
