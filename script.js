@@ -1,62 +1,58 @@
+// Mobile menu
 document.addEventListener('DOMContentLoaded', () => {
   const burger = document.querySelector('.burger');
   const menu = document.querySelector('.menu');
   if (burger) burger.addEventListener('click', () => menu.classList.toggle('open'));
 });
 
+// Minimal lightbox
 const Lightbox = (() => {
-  let state = { items: [], index: 0 };
-  const el = { root:null,img:null,cap:null,prev:null,next:null,close:null };
-
-  function build(){
-    el.root=document.createElement('div'); el.root.className='lightbox';
-    el.img=document.createElement('img'); el.cap=document.createElement('div'); el.cap.className='caption';
-    el.prev=document.createElement('button'); el.prev.className='prev'; el.prev.textContent='‹';
-    el.next=document.createElement('button'); el.next.className='next'; el.next.textContent='›';
-    el.close=document.createElement('button'); el.close.className='close'; el.close.textContent='✕';
-    el.root.append(el.img,el.cap,el.prev,el.next,el.close); document.body.appendChild(el.root);
-
-    el.close.onclick=()=>el.root.classList.remove('open');
-    el.prev.onclick=()=>show(state.index-1);
-    el.next.onclick=()=>show(state.index+1);
-
-    document.addEventListener('keydown',e=>{
-      if(!el.root.classList.contains('open')) return;
-      if(e.key==='Escape') el.root.classList.remove('open');
-      if(e.key==='ArrowLeft') show(state.index-1);
-      if(e.key==='ArrowRight') show(state.index+1);
-    });
-  }
-
-  function open(items,index){
-    state.items=items; state.index=index;
-    show(index);
-    el.root.classList.add('open');
-  }
-
+  let items = [], index = 0;
+  const root = document.createElement('div');
+  root.className = 'lightbox';
+  const img = document.createElement('img');
+  const cap = document.createElement('div'); cap.className = 'caption';
+  const prev = document.createElement('button'); prev.className = 'prev'; prev.textContent = '‹';
+  const next = document.createElement('button'); next.className = 'next'; next.textContent = '›';
+  const close = document.createElement('button'); close.className = 'close'; close.textContent = '✕';
+  root.append(img, cap, prev, next, close);
+  document.body.appendChild(root);
+  close.onclick = () => root.classList.remove('open');
+  prev.onclick = () => show(index - 1);
+  next.onclick = () => show(index + 1);
+  document.addEventListener('keydown', e => {
+    if (!root.classList.contains('open')) return;
+    if (e.key === 'Escape') root.classList.remove('open');
+    if (e.key === 'ArrowLeft') show(index - 1);
+    if (e.key === 'ArrowRight') show(index + 1);
+  });
+  function open(arr, i){ items = arr; show(i); root.classList.add('open'); }
   function show(i){
-    if(state.items.length===0) return;
-    state.index=(i+state.items.length)%state.items.length;
-    const item=state.items[state.index];
-    el.img.src=`images/${item.src}`;
-    el.cap.textContent=`${item.title} (${item.year}) - ${item.medium} ${item.size}`;
+    index = (i + items.length) % items.length;
+    const it = items[index];
+    img.src = '/images/' + it.src;
+    img.alt = it.alt || it.title || '';
+    cap.textContent = [it.title, it.year, it.medium, it.size].filter(Boolean).join(' · ');
   }
-
-  return { build, open };
+  return { open };
 })();
 
-fetch('images/images.json')
-  .then(res=>res.json())
-  .then(images=>{
-    const grid=document.querySelector('.gallery-grid');
-    if(grid){
-      images.forEach((img,idx)=>{
-        const el=document.createElement('img');
-        el.src=`images/${img.src}`;
-        el.alt=img.alt;
-        el.onclick=()=>Lightbox.open(images,idx);
-        grid.appendChild(el);
-      });
-    }
-    Lightbox.build();
+// Build a grid from /images/images.json into the given selector
+async function loadGallery(selector){
+  const el = document.querySelector(selector);
+  if (!el) return;
+  const res = await fetch('/images/images.json', { cache: 'no-store' });
+  const items = await res.json();
+  items.forEach((item, idx) => {
+    const card = document.createElement('div'); card.className = 'card';
+    const img = document.createElement('img');
+    img.loading = 'lazy'; img.decoding = 'async';
+    img.src = '/images/' + item.src; img.alt = item.alt || item.title || '';
+    img.addEventListener('click', () => Lightbox.open(items, idx));
+    const meta = document.createElement('div'); meta.className = 'meta';
+    const l = document.createElement('div'); l.textContent = item.title || 'Untitled';
+    const r = document.createElement('div'); r.textContent = item.year || '';
+    meta.append(l, r); card.append(img, meta); el.append(card);
   });
+}
+    
