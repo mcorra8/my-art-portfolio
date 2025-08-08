@@ -1,38 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Michael Corra</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Michael Corra — Artwork</title>
+  <meta name="description" content="The official portfolio of artist Michael Corra.">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <!-- Navigation -->
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="/index.html">Michael Corra</a>
+      <nav>
+        <span class="burger" aria-label="menu">☰</span>
+        <div class="menu">
+          <a href="/gallery.html">Gallery</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <!-- Main section -->
-  <section class="section">
-    <div class="home-intro">
-      <h1>Welcome to the artwork of Michael Corra</h1>
-      <p>Explore the gallery to view selected works.</p>
-    </div>
-  </section>
+  <section class="hero"><h1>Michael Corra</h1></section>
+  <main class="container"><div class="grid" id="selected-grid"></div></main>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; <span id="year"></span> Michael Corra. All rights reserved.</p>
-  </footer>
+  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
 
+  <script src="/script.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    loadGallery('#selected-grid');
   </script>
 </body>
 </html>
