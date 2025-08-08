@@ -1,31 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Artwork 1 — Michael Corra</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work — Michael Corra</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-  <section class="section">
-    <div class="single-artwork">
-      <img src="images/work1.jpg" alt="Artwork" />
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="/index.html">Michael Corra</a>
+      <nav class="menu">
+        <a href="/gallery.html">Gallery</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
     </div>
-  </section>
-  <footer>
-    <p>&copy; <span id="year"></span> Michael Corra. All rights reserved.</p>
-  </footer>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  </header>
+
+  <main class="container work"></main>
+
+  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
+  <script src="/script.js?v=13"></script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 </body>
 </html>
