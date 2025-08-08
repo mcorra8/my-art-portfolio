@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Michael Corra</title>
+  <title>Michael Corra — Artwork</title>
   <link rel="stylesheet" href="styles.css?v=30" />
   <style>
     body, html {
@@ -12,15 +12,44 @@
       height: 100%;
       width: 100%;
     }
+
     .full-background {
       position: relative;
       height: 100vh;
       width: 100%;
-      background-image: url('images/painting_converted.jpg');
+      background-image: url('images/hero-new.jpg');
       background-size: cover;
       background-position: center;
     }
-    .site-title {
+
+    header.site-header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.3); /* semi-transparent background */
+    }
+
+    header.site-header a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+
+    header.site-header .site-title {
+      font-weight: bold;
+      font-size: 1.3em;
+    }
+
+    .site-nav a {
+      margin-left: 20px;
+    }
+
+    .centered-title {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -35,7 +64,16 @@
 </head>
 <body>
   <div class="full-background">
-    <div class="site-title">Michael Corra</div>
+    <header class="site-header">
+      <a class="site-title" href="index.html">Michael Corra</a>
+      <nav class="site-nav">
+        <a href="gallery.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <div class="centered-title">Michael Corra</div>
   </div>
 </body>
 </html>
