@@ -1,11 +1,11 @@
 [
-  { "src": "F7D94A22-ADD6-4ECC-B868-8A89B696711D.jpeg", "title": "Untitled 1", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 1" },
-  { "src": "97A68620-F4F9-4931-A826-67425A10AE7B.jpeg", "title": "Untitled 2", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 2" },
-  { "src": "1AE3737B-D504-481D-91DE-85F9073C2CEE.jpeg", "title": "Untitled 3", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 3" },
-  { "src": "059F621E-F0B8-41EA-820C-04FE791E759C.jpeg", "title": "Untitled 4", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 4" },
-  { "src": "0AAB1382-0E17-4641-AE74-45A9FD8FB9DE.jpeg", "title": "Untitled 5", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 5" },
-  { "src": "C2531AE5-DE33-4667-8EBD-B1C8AB8B04AF.jpeg", "title": "Untitled 6", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 6" },
-  { "src": "F0CD85D0-C5C8-4B33-B40E-836378210041.jpeg", "title": "Untitled 7", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 7" },
-  { "src": "7684F1E0-E150-4569-8BFD-49AF5A899BB7.jpeg", "title": "Untitled 8", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 8" },
-  { "src": "60D8AC95-AEF0-4F0D-AD42-06C6E78D6F9F.jpeg", "title": "Untitled 9", "year": "2024", "medium": "Acrylic on canvas", "size": "", "alt": "Painting 9" }
+  { "src": "F7D94A22-ADD6-4ECC-B868-8A89B696711D.jpeg", "alt": "Painting 1" },
+  { "src": "97A68620-F4F9-4931-A826-67425A10AE7B.jpeg", "alt": "Painting 2" },
+  { "src": "1AE3737B-D504-481D-91DE-85F9073C2CEE.jpeg", "alt": "Painting 3" },
+  { "src": "059F621E-F0B8-41EA-820C-04FE791E759C.jpeg", "alt": "Painting 4" },
+  { "src": "0AAB1382-0E17-4641-AE74-45A9FD8FB9DE.jpeg", "alt": "Painting 5" },
+  { "src": "C2531AE5-DE33-4667-8EBD-B1C8AB8B04AF.jpeg", "alt": "Painting 6" },
+  { "src": "F0CD85D0-C5C8-4B33-B40E-836378210041.jpeg", "alt": "Painting 7" },
+  { "src": "7684F1E0-E150-4569-8BFD-49AF5A899BB7.jpeg", "alt": "Painting 8" },
+  { "src": "60D8AC95-AEF0-4F0D-AD42-06C6E78D6F9F.jpeg", "alt": "Painting 9" }
 ]
