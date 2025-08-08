@@ -1,90 +1,76 @@
-/* Gallery + single-work (reads images.json, shows which file is used) */
-(function () {
-  const V = '34'; // bump to bust cache
+// script.js  (drop this in as-is)
 
-  async function loadList() {
-    const res = await fetch(`images/images.json?v=${V}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('images.json not found');
-    return res.json();
+(async function () {
+  const VERSION = 36; // bump when you update images
+  const JSON_URL = `images/images.json?v=${VERSION}`;
+
+  // Utility to get query param
+  function q(name) {
+    const m = new URLSearchParams(window.location.search).get(name);
+    return m === null ? null : m;
   }
 
-  function setWithFallback(img, filename, onResolved) {
-    const dot = filename.lastIndexOf('.');
-    const base = dot > -1 ? filename.slice(0, dot) : filename;
-    const tries = [filename, `${base}.jpg`, `${base}.jpeg`, `${base}.JPG`];
-    let i = 0;
-    const tryNext = () => {
-      if (i >= tries.length) return;
-      const attempt = `images/${tries[i]}?v=${V}`;
-      img.src = attempt;
-      img.onerror = () => { i += 1; tryNext(); };
-      img.onload = () => onResolved && onResolved(attempt);
-    };
-    tryNext();
+  // Load image list once
+  async function getImages() {
+    const r = await fetch(JSON_URL, { cache: "no-store" });
+    if (!r.ok) throw new Error("images.json not found");
+    return r.json();
   }
 
-  function renderGrid(target, items) {
-    if (!target) return;
-    target.innerHTML = '';
-    items.forEach((it, i) => {
-      const a = document.createElement('a');
-      a.className = 'card';
-      a.href = `work.html?i=${i}&v=${V}`; // 0-based index
+  const images = await getImages().catch(e => {
+    console.error(e);
+    return [];
+  });
 
-      const img = document.createElement('img');
-      img.alt = it.alt || `Painting ${i + 1}`;
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      setWithFallback(img, it.src);
+  // ------- GALLERY PAGE -------
+  const grid = document.querySelector("#gallery-grid");
+  if (grid && images.length) {
+    // Build cards but DO NOT change your CSS/classes/layout
+    grid.innerHTML = images
+      .map((img, i) => {
+        const src = `images/${img.src}?v=${VERSION}`;
+        const alt = img.alt || `Painting ${i + 1}`;
+        // Link goes to one reusable page work.html with index param
+        return `
+          <a class="card" href="work.html?i=${i}&v=${VERSION}" aria-label="${alt}">
+            <div class="thumb">
+              <img loading="lazy" src="${src}" alt="${alt}">
+            </div>
+            <div class="meta">
+              <span class="title">${alt}</span>
+            </div>
+          </a>`;
+      })
+      .join("");
+  }
 
-      a.appendChild(img);
-      target.appendChild(a);
+  // ------- SINGLE WORK PAGE -------
+  const workWrap = document.querySelector(".work");
+  if (workWrap && images.length) {
+    const iRaw = q("i");
+    let i = parseInt(iRaw, 10);
+    if (Number.isNaN(i) || i < 0 || i >= images.length) i = 0;
+
+    const img = images[i];
+    const src = `images/${img.src}?v=${VERSION}`;
+    const alt = img.alt || `Painting ${i + 1}`;
+
+    workWrap.innerHTML = `
+      <figure class="work-figure">
+        <img class="work-image" src="${src}" alt="${alt}">
+      </figure>
+    `;
+
+    // Optional: keyboard left/right
+    function nav(delta) {
+      let n = i + delta;
+      if (n < 0) n = images.length - 1;
+      if (n >= images.length) n = 0;
+      window.location.href = \`work.html?i=\${n}&v=\${VERSION}\`;
+    }
+    window.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") nav(-1);
+      if (e.key === "ArrowRight") nav(1);
     });
   }
-
-  function renderWork(target, items) {
-    if (!target) return;
-
-    const params = new URLSearchParams(location.search);
-    const idx = parseInt(params.get('i') || '0', 10); // 0-based
-    const it = items[idx];
-
-    target.innerHTML = '';
-    if (!it) { target.textContent = 'Artwork not found.'; return; }
-
-    // Debug label so we can SEE the filename being used
-    const label = document.createElement('div');
-    label.style.cssText = 'margin:8px 0 16px;color:#777;font:14px/1.4 system-ui';
-    label.textContent = `Loading: images/${it.src}`;
-
-    const img = document.createElement('img');
-    img.alt = it.alt || `Painting ${idx + 1}`;
-    img.style.maxWidth = '1100px';
-    img.style.width = '100%';
-    img.style.display = 'block';
-    img.style.margin = '0 auto';
-
-    // When fallback resolves, update the label to the actual URL loaded
-    setWithFallback(img, it.src, (resolvedUrl) => { label.textContent = `Loaded: ${resolvedUrl}`; });
-
-    target.appendChild(label);
-    target.appendChild(img);
-  }
-
-  document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const items = await loadList();
-
-      const homeGrid = document.querySelector('#selected-grid');
-      if (homeGrid) renderGrid(homeGrid, items.slice(0, 6));
-
-      const galleryGrid = document.querySelector('#gallery-grid') || document.querySelector('#galleryGrid');
-      if (galleryGrid) renderGrid(galleryGrid, items);
-
-      const workWrap = document.querySelector('.work');
-      if (workWrap) renderWork(workWrap, items);
-    } catch (e) {
-      console.error(e);
-    }
-  });
 })();
