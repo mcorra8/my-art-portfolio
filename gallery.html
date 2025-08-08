@@ -4,28 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gallery — Michael Corra</title>
-  <meta name="description" content="Paintings by Michael Corra">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
-  <header class="header">
-    <div class="container nav">
-      <a class="brand" href="/index.html">Michael Corra</a>
-      <nav class="menu">
-        <a href="/gallery.html">Gallery</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
-      </nav>
-    </div>
+  <header class="site-header">
+    <a class="site-title" href="index.html">Michael Corra</a>
+    <nav class="site-nav">
+      <a href="gallery.html" aria-current="page">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
   </header>
 
   <main class="container">
-    <h1>Gallery</h1>
-    <div class="grid" id="gallery-grid"></div>
+    <h1 class="visually-hidden">Gallery</h1>
+    <div id="gallery-grid" class="gallery-grid"></div>
   </main>
 
-  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
-  <script src="/script.js?v=13"></script>
-  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+  <script src="script.js?v=25"></script>
 </body>
 </html>
