@@ -1,45 +1,62 @@
-// script.js  — lightweight, non-destructive
-
+// script.js — builds gallery if needed and fixes 404s
 (function () {
-  const VERSION = 40;                                // bump to bust cache
+  const VERSION = 41;                                  // bump to bust cache
   const JSON_URL = `images/images.json?v=${VERSION}`;
 
-  // tiny helpers
-  const $ = (s, r = document) => r.querySelector(s);
+  const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const getParam = (k) => new URLSearchParams(location.search).get(k);
+  const baseName = (url) => (url || "").split("/").pop().split("?")[0];
 
-  // normalize a filename: strip path and ?v= cache-busters
-  const baseName = (url) => (url || "")
-    .split("/").pop().split("?")[0];
-
-  async function loadList() {
+  async function getList() {
     const res = await fetch(JSON_URL, { cache: "no-store" });
     if (!res.ok) throw new Error("images.json not found");
     return res.json();
   }
 
-  // ---- GALLERY: keep your existing markup, only fix the links ----
-  async function enhanceGallery() {
-    const grid = $("#gallery-grid") || $(".gallery") || document.body;
+  // ---------- GALLERY ----------
+  async function setupGallery() {
+    // Try common containers. We won't change your CSS/layout.
+    const grid =
+      $("#gallery-grid") ||
+      $(".gallery") ||
+      $(".container") ||
+      $("main") ||
+      document.body;
+
     if (!grid) return;
 
     let list = [];
-    try { list = await loadList(); } catch (e) { console.error(e); return; }
+    try { list = await getList(); } catch (e) { console.error(e); return; }
 
-    // map filename -> index in images.json
-    const idxByName = new Map(
-      list.map((item, i) => [baseName(item.src), i])
-    );
+    // If there are no <img> tags, build the grid from images.json
+    const existingThumbs = $$("img", grid);
+    if (existingThumbs.length === 0) {
+      // minimal markup: image inside link; no titles/dates since you asked to hide them
+      const frag = document.createDocumentFragment();
+      list.forEach((item, i) => {
+        const a = document.createElement("a");
+        a.className = "thumb";
+        a.href = `work.html?i=${i}&v=${VERSION}`;
 
-    // Find all images shown as thumbnails on the page
-    const thumbs = $$("img", grid);
-    thumbs.forEach(img => {
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.alt = item.alt || `Painting ${i + 1}`;
+        img.src = `images/${item.src}?v=${VERSION}`;
+
+        a.appendChild(img);
+        frag.appendChild(a);
+      });
+      grid.appendChild(frag);
+      return;
+    }
+
+    // If thumbnails already exist, just fix their links.
+    const indexByName = new Map(list.map((it, i) => [baseName(it.src), i]));
+    existingThumbs.forEach(img => {
       const name = baseName(img.getAttribute("src"));
-      const i = idxByName.get(name);
-      if (i == null) return; // ignore images not in images.json (hero, logos, etc.)
-
-      // find or create an anchor wrapper and point it to work.html?i=#
+      const i = indexByName.get(name);
+      if (i == null) return; // hero or anything not in images.json
       let a = img.closest("a");
       if (!a) {
         a = document.createElement("a");
@@ -50,13 +67,13 @@
     });
   }
 
-  // ---- WORK PAGE: render the one image by index ----
-  async function renderWork() {
-    const mount = document.querySelector(".work");
+  // ---------- WORK (single image) ----------
+  async function setupWork() {
+    const mount = $(".work");
     if (!mount) return;
 
     let list = [];
-    try { list = await loadList(); } catch (e) { console.error(e); return; }
+    try { list = await getList(); } catch (e) { console.error(e); return; }
 
     let i = parseInt(getParam("i") || "0", 10);
     if (Number.isNaN(i) || i < 0 || i >= list.length) i = 0;
@@ -72,7 +89,6 @@
     `;
   }
 
-  // run both; each only acts if its target exists
-  enhanceGallery();
-  renderWork();
+  setupGallery();
+  setupWork();
 })();
