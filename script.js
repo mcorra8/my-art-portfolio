@@ -1,6 +1,6 @@
-// Gallery + single work page with smart extension fallback
+// Gallery + single work page with smart extension fallback + cache busting
 (function () {
-  const V = '18'; // bump if you still see cached content
+  const V = '20'; // bump this if you still see caching
 
   async function loadList() {
     const res = await fetch(`/images/images.json?v=${V}`, { cache: 'no-store' });
@@ -28,14 +28,13 @@
   }
 
   function filenameWithoutExt(name) {
-    // strip last dot + extension
     const p = name.lastIndexOf('.');
     return p > -1 ? name.slice(0, p) : name;
   }
 
   function renderGrid(selector, items) {
-    const grid = document.querySelector(selector);
-    if (!grid) return;
+    const grid = document.querySelector(selector) || document.querySelector('.gallery-grid') || document.querySelector('#gallery-grid');
+    if (!grid || (selector && !document.querySelector(selector))) return; // respect explicit selector if given
     grid.innerHTML = '';
 
     items.forEach((it, i) => {
@@ -50,7 +49,6 @@
       img.loading = 'lazy';
       img.decoding = 'async';
 
-      // set src with fallback for extension mismatches
       setSrcWithFallback(img, `/images/${filenameWithoutExt(it.src)}`);
 
       a.appendChild(img);
@@ -63,7 +61,8 @@
     const wrap = document.querySelector('.work');
     if (!wrap) return;
 
-    const idx = parseInt(new URLSearchParams(location.search).get('i') || '0', 10);
+    const params = new URLSearchParams(location.search);
+    const idx = parseInt(params.get('i') || '0', 10);
     const it = items[idx];
     if (!it) return;
 
@@ -73,15 +72,19 @@
 
     setSrcWithFallback(img, `/images/${filenameWithoutExt(it.src)}`);
 
+    wrap.innerHTML = '';
     wrap.appendChild(img);
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
     try {
       const items = await loadList();
-      renderGrid('#selected-grid', items); // home (if present)
-      renderGrid('#gallery-grid', items);  // gallery
-      renderWork(items);                   // single work page
+      // Home page (optional featured grid)
+      renderGrid('#selected-grid', items);
+      // Gallery page
+      renderGrid('#gallery-grid', items);
+      // Single work page
+      renderWork(items);
     } catch (e) {
       console.error(e);
     }
