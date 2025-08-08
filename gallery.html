@@ -27,12 +27,15 @@
     <div class="grid" id="gallery-grid"></div>
   </main>
 
-  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
+  <footer class="footer">
+    <div class="container">© <span id="year"></span> Michael Corra</div>
+  </footer>
 
-  <script src="/script.js"></script>
+  <!-- JS -->
+  <script src="/script.js?v=3"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    loadGallery('#gallery-grid');
+    /* script.js auto-renders #gallery-grid */
   </script>
 </body>
 </html>
