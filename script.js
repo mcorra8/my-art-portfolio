@@ -1,76 +1,78 @@
-// script.js  (drop this in as-is)
+// script.js  — lightweight, non-destructive
 
-(async function () {
-  const VERSION = 36; // bump when you update images
+(function () {
+  const VERSION = 40;                                // bump to bust cache
   const JSON_URL = `images/images.json?v=${VERSION}`;
 
-  // Utility to get query param
-  function q(name) {
-    const m = new URLSearchParams(window.location.search).get(name);
-    return m === null ? null : m;
+  // tiny helpers
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const getParam = (k) => new URLSearchParams(location.search).get(k);
+
+  // normalize a filename: strip path and ?v= cache-busters
+  const baseName = (url) => (url || "")
+    .split("/").pop().split("?")[0];
+
+  async function loadList() {
+    const res = await fetch(JSON_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("images.json not found");
+    return res.json();
   }
 
-  // Load image list once
-  async function getImages() {
-    const r = await fetch(JSON_URL, { cache: "no-store" });
-    if (!r.ok) throw new Error("images.json not found");
-    return r.json();
+  // ---- GALLERY: keep your existing markup, only fix the links ----
+  async function enhanceGallery() {
+    const grid = $("#gallery-grid") || $(".gallery") || document.body;
+    if (!grid) return;
+
+    let list = [];
+    try { list = await loadList(); } catch (e) { console.error(e); return; }
+
+    // map filename -> index in images.json
+    const idxByName = new Map(
+      list.map((item, i) => [baseName(item.src), i])
+    );
+
+    // Find all images shown as thumbnails on the page
+    const thumbs = $$("img", grid);
+    thumbs.forEach(img => {
+      const name = baseName(img.getAttribute("src"));
+      const i = idxByName.get(name);
+      if (i == null) return; // ignore images not in images.json (hero, logos, etc.)
+
+      // find or create an anchor wrapper and point it to work.html?i=#
+      let a = img.closest("a");
+      if (!a) {
+        a = document.createElement("a");
+        img.replaceWith(a);
+        a.appendChild(img);
+      }
+      a.href = `work.html?i=${i}&v=${VERSION}`;
+    });
   }
 
-  const images = await getImages().catch(e => {
-    console.error(e);
-    return [];
-  });
+  // ---- WORK PAGE: render the one image by index ----
+  async function renderWork() {
+    const mount = document.querySelector(".work");
+    if (!mount) return;
 
-  // ------- GALLERY PAGE -------
-  const grid = document.querySelector("#gallery-grid");
-  if (grid && images.length) {
-    // Build cards but DO NOT change your CSS/classes/layout
-    grid.innerHTML = images
-      .map((img, i) => {
-        const src = `images/${img.src}?v=${VERSION}`;
-        const alt = img.alt || `Painting ${i + 1}`;
-        // Link goes to one reusable page work.html with index param
-        return `
-          <a class="card" href="work.html?i=${i}&v=${VERSION}" aria-label="${alt}">
-            <div class="thumb">
-              <img loading="lazy" src="${src}" alt="${alt}">
-            </div>
-            <div class="meta">
-              <span class="title">${alt}</span>
-            </div>
-          </a>`;
-      })
-      .join("");
-  }
+    let list = [];
+    try { list = await loadList(); } catch (e) { console.error(e); return; }
 
-  // ------- SINGLE WORK PAGE -------
-  const workWrap = document.querySelector(".work");
-  if (workWrap && images.length) {
-    const iRaw = q("i");
-    let i = parseInt(iRaw, 10);
-    if (Number.isNaN(i) || i < 0 || i >= images.length) i = 0;
+    let i = parseInt(getParam("i") || "0", 10);
+    if (Number.isNaN(i) || i < 0 || i >= list.length) i = 0;
 
-    const img = images[i];
-    const src = `images/${img.src}?v=${VERSION}`;
-    const alt = img.alt || `Painting ${i + 1}`;
+    const item = list[i];
+    const src = `images/${item.src}?v=${VERSION}`;
+    const alt = item.alt || `Painting ${i + 1}`;
 
-    workWrap.innerHTML = `
+    mount.innerHTML = `
       <figure class="work-figure">
         <img class="work-image" src="${src}" alt="${alt}">
       </figure>
     `;
-
-    // Optional: keyboard left/right
-    function nav(delta) {
-      let n = i + delta;
-      if (n < 0) n = images.length - 1;
-      if (n >= images.length) n = 0;
-      window.location.href = \`work.html?i=\${n}&v=\${VERSION}\`;
-    }
-    window.addEventListener("keydown", e => {
-      if (e.key === "ArrowLeft") nav(-1);
-      if (e.key === "ArrowRight") nav(1);
-    });
   }
+
+  // run both; each only acts if its target exists
+  enhanceGallery();
+  renderWork();
 })();
