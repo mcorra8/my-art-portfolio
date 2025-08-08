@@ -23,14 +23,21 @@
   </header>
 
   <section class="hero"><h1>Michael Corra</h1></section>
-  <main class="container"><div class="grid" id="selected-grid"></div></main>
 
-  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
+  <main class="container">
+    <!-- Home grid -->
+    <div class="grid" id="selected-grid"></div>
+  </main>
 
-  <script src="/script.js"></script>
+  <footer class="footer">
+    <div class="container">© <span id="year"></span> Michael Corra</div>
+  </footer>
+
+  <!-- JS -->
+  <script src="/script.js?v=3"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    loadGallery('#selected-grid');
+    /* script.js auto-renders #selected-grid */
   </script>
 </body>
 </html>
