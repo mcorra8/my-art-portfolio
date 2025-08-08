@@ -1,11 +1,11 @@
 [
-  { "src": "7B7D882D-A534-4F5C-845A-A4BE8A1A9076.jpeg", "alt": "Painting 1" },
-  { "src": "5FB02E4E-C5B7-4702-A016-8A1FAEF1DE97.jpeg", "alt": "Painting 2" },
+  { "src": "painting-01.jpg", "alt": "Painting 1" },
+  { "src": "painting-02.jpg", "alt": "Painting 2" },
   { "src": "19080C04-5657-494D-A325-99711528E9B5.jpeg", "alt": "Painting 3" },
   { "src": "045DB5BB-BA6A-445E-B149-2A9C4AF6283D.jpeg", "alt": "Painting 4" },
   { "src": "44FAEFC2-0B0E-429C-B692-7BC122D1955B.jpeg", "alt": "Painting 5" },
   { "src": "47AEE10B-06FB-4E55-BD86-F88AC7280BCE.jpeg", "alt": "Painting 6" },
   { "src": "DA8D4D7E-EAAB-4BDF-ACCD-76C86334EA21.jpeg", "alt": "Painting 7" },
-  { "src": "52672FBD-CC9D-418E-89B9-52E96C110C561.jpeg", "alt": "Painting 8" },
+  { "src": "painting-08.jpg", "alt": "Painting 8" },
   { "src": "0ABC2FFE-A7BE-4550-9E6B-71548C8A140F.jpeg", "alt": "Painting 9" }
 ]
