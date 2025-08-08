@@ -1,64 +1,64 @@
-// v43 — filename-based routing + tiny fallback; builds gallery + large view
-(function () {
-  const V = 43; // bump to bust caches
-  const JSON_URL = `images/images.json?v=${V}`;
+// script.js  (v44)
 
-  const $ = (s, r = document) => r.querySelector(s);
-  const qp = (k) => new URLSearchParams(location.search).get(k);
+// Build gallery from /images/images.json
+async function buildGallery() {
+  try {
+    const res = await fetch('images/images.json?v=44', { cache: 'no-store' });
+    const items = await res.json();
 
-  async function loadList() {
-    const res = await fetch(JSON_URL, { cache: 'no-store' });
-    if (!res.ok) throw new Error('images.json not found');
-    return res.json();
-  }
-
-  // ---------- GALLERY ----------
-  async function initGallery() {
-    const grid = $('#gallery-grid');
-    if (!grid) return; // page without a grid
-
-    let list = [];
-    try { list = await loadList(); } catch (e) { console.error(e); return; }
+    const grid = document.querySelector('.gallery-grid');
+    if (!grid) return;
 
     grid.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    list.forEach(it => {
+    items.forEach((it, idx) => {
       const a = document.createElement('a');
       a.className = 'card';
-      a.href = `work.html?src=${encodeURIComponent(it.src)}&v=${V}`;
+      a.href = `work.html?img=${encodeURIComponent(it.src)}&i=${idx+1}`;
+      a.setAttribute('aria-label', it.alt || `Painting ${idx+1}`);
 
       const img = document.createElement('img');
-      img.alt = it.alt || '';
       img.loading = 'lazy';
-      img.decoding = 'async';
-      img.src = `images/${it.src}?v=${V}`;
+      img.alt = it.alt || `Painting ${idx+1}`;
+      img.src = `images/${it.src}`;
 
       a.appendChild(img);
-      frag.appendChild(a);
+      grid.appendChild(a);
     });
+  } catch (e) {
+    console.error('Gallery build failed', e);
+  }
+}
 
-    grid.appendChild(frag);
+// On work.html, read ?img= and show big image
+function renderWork() {
+  const wrap = document.querySelector('.work');
+  if (!wrap) return;
+
+  const params = new URLSearchParams(location.search);
+  const src = params.get('img');
+
+  // fallback: if script was ever linking with a full path, strip directory
+  const file = src ? src.split('/').pop() : null;
+
+  if (!file) {
+    wrap.innerHTML = '<p>Image not specified.</p>';
+    return;
   }
 
-  // ---------- SINGLE WORK ----------
-  async function initWork() {
-    const mount = $('.work');
-    if (!mount) return; // not on work page
+  const fig = document.createElement('figure');
+  fig.className = 'work-figure';
 
-    const src = qp('src');
-    if (!src) { mount.textContent = 'Artwork not found.'; return; }
+  const img = document.createElement('img');
+  img.className = 'work-image';
+  img.alt = file;
+  img.src = `images/${file}`;
 
-    const url = `images/${src}?v=${V}`;
-    mount.innerHTML = `
-      <figure class="work-figure">
-        <img class="work-image" src="${url}" alt="" />
-      </figure>
-    `;
-  }
+  fig.appendChild(img);
+  wrap.innerHTML = '';
+  wrap.appendChild(fig);
+}
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initGallery();
-    initWork();
-  });
-})();
+document.addEventListener('DOMContentLoaded', () => {
+  buildGallery();
+  renderWork();
+});
