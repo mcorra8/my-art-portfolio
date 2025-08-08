@@ -4,23 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gallery — Michael Corra</title>
-  <link rel="stylesheet" href="styles.css?v=42" />
+  <link rel="stylesheet" href="styles.css?v=43" />
 </head>
 <body>
   <header class="site-header">
     <a class="site-title" href="index.html">Michael Corra</a>
     <nav class="site-nav">
-      <a href="gallery.html">Gallery</a>
+      <a href="gallery.html" aria-current="page">Gallery</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
 
   <main class="container">
-    <h1 class="sr-only">Gallery</h1>
-    <div id="grid" class="gallery-grid"></div>
+    <h1 class="visually-hidden">Gallery</h1>
+    <!-- This container is REQUIRED so JS can render thumbnails -->
+    <div id="gallery-grid" class="gallery-grid"></div>
   </main>
 
-  <script src="script.js?v=42" defer></script>
+  <!-- This script include is REQUIRED -->
+  <script src="script.js?v=43" defer></script>
 </body>
 </html>
