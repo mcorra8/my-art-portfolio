@@ -1,1 +1,71 @@
+<!-- /work.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Michael Corra — Artwork</title>
+  <link rel="stylesheet" href="styles.css?v=3" />
+  <style>
+    .work-wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .work-media { width: 100%; display: block; height: auto; }
+    .work-nav { margin-top: 16px; display: flex; gap: 16px; justify-content: space-between; }
+    .work-meta { margin-top: 12px; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">Michael Corra</a>
+    <nav class="nav">
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
+  <main class="work-wrap">
+    <img id="workImage" class="work-media" alt="" />
+    <div class="work-meta" id="workMeta"></div>
+    <div class="work-nav">
+      <a id="prevLink" href="#">← Previous</a>
+      <a id="nextLink" href="#">Next →</a>
+    </div>
+  </main>
+
+  <script>
+    (async function () {
+      const params = new URLSearchParams(location.search);
+      const i = parseInt(params.get('i'), 10); // 1-based index
+      if (!i || i < 1) { location.replace('gallery.html'); return; }
+
+      try {
+        const res = await fetch('images/images.json?v=' + Date.now());
+        const items = await res.json();
+        const idx = i - 1;
+
+        if (!items[idx]) { location.replace('gallery.html'); return; }
+
+        const item = items[idx];
+        const img = document.getElementById('workImage');
+        img.src = 'images/' + item.src;          // e.g., images/painting-03.jpg
+        img.alt = item.alt || ('Painting ' + i);
+
+        const meta = document.getElementById('workMeta');
+        // If you don’t want any caption, comment the next line out.
+        meta.textContent = item.alt || '';
+
+        // prev/next
+        const prev = document.getElementById('prevLink');
+        const next = document.getElementById('nextLink');
+        prev.style.visibility = (i > 1) ? 'visible' : 'hidden';
+        next.style.visibility = (i < items.length) ? 'visible' : 'hidden';
+        prev.href = 'work.html?i=' + (i - 1);
+        next.href = 'work.html?i=' + (i + 1);
+      } catch (e) {
+        console.error(e);
+        location.replace('gallery.html');
+      }
+    })();
+  </script>
+</body>
+</html>
