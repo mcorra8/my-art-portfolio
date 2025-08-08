@@ -1,64 +1,64 @@
-// v42 — filename-based routing (no more index mismatches)
+// v43 — filename-based routing + tiny fallback; builds gallery + large view
+(function () {
+  const V = 43; // bump to bust caches
+  const JSON_URL = `images/images.json?v=${V}`;
 
-const VERSION = 42;
-const JSON_URL = `images/images.json?v=${VERSION}`;
+  const $ = (s, r = document) => r.querySelector(s);
+  const qp = (k) => new URLSearchParams(location.search).get(k);
 
-const $ = (s, r = document) => r.querySelector(s);
-
-async function loadList() {
-  const res = await fetch(JSON_URL, { cache: "no-store" });
-  if (!res.ok) throw new Error("images.json not found");
-  return res.json();
-}
-
-function q(k) { return new URLSearchParams(location.search).get(k); }
-
-// Build gallery thumbnails
-async function initGallery() {
-  const grid = $("#grid");
-  if (!grid) return;
-
-  let list = [];
-  try { list = await loadList(); } catch (e) { console.error(e); return; }
-
-  const frag = document.createDocumentFragment();
-  list.forEach(item => {
-    const a = document.createElement("a");
-    a.className = "thumb";
-    a.href = `work.html?src=${encodeURIComponent(item.src)}&v=${VERSION}`;
-
-    const img = document.createElement("img");
-    img.loading = "lazy";
-    img.alt = item.alt || "";
-    img.src = `images/${item.src}?v=${VERSION}`;
-
-    a.appendChild(img);
-    frag.appendChild(a);
-  });
-  grid.appendChild(frag);
-}
-
-// Build single image page
-async function initWork() {
-  const mount = $(".work");
-  if (!mount) return;
-
-  const src = q("src"); // expected like painting-01.jpg
-  if (!src) {
-    mount.innerHTML = `<p>Missing image.</p>`;
-    return;
+  async function loadList() {
+    const res = await fetch(JSON_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error('images.json not found');
+    return res.json();
   }
-  const url = `images/${src}?v=${VERSION}`;
 
-  // show image
-  mount.innerHTML = `
-    <figure class="work-figure">
-      <img class="work-image" src="${url}" alt="" />
-    </figure>
-  `;
-}
+  // ---------- GALLERY ----------
+  async function initGallery() {
+    const grid = $('#gallery-grid');
+    if (!grid) return; // page without a grid
 
-document.addEventListener("DOMContentLoaded", () => {
-  initGallery();
-  initWork();
-});
+    let list = [];
+    try { list = await loadList(); } catch (e) { console.error(e); return; }
+
+    grid.innerHTML = '';
+    const frag = document.createDocumentFragment();
+
+    list.forEach(it => {
+      const a = document.createElement('a');
+      a.className = 'card';
+      a.href = `work.html?src=${encodeURIComponent(it.src)}&v=${V}`;
+
+      const img = document.createElement('img');
+      img.alt = it.alt || '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = `images/${it.src}?v=${V}`;
+
+      a.appendChild(img);
+      frag.appendChild(a);
+    });
+
+    grid.appendChild(frag);
+  }
+
+  // ---------- SINGLE WORK ----------
+  async function initWork() {
+    const mount = $('.work');
+    if (!mount) return; // not on work page
+
+    const src = qp('src');
+    if (!src) { mount.textContent = 'Artwork not found.'; return; }
+
+    const url = `images/${src}?v=${V}`;
+    mount.innerHTML = `
+      <figure class="work-figure">
+        <img class="work-image" src="${url}" alt="" />
+      </figure>
+    `;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initGallery();
+    initWork();
+  });
+})();
