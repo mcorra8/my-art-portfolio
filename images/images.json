@@ -1,11 +1,11 @@
 [
-  { "src": "painting-01.jpg", "alt": "Painting 1" },
-  { "src": "painting-02.jpg", "alt": "Painting 2" },
-  { "src": "painting-03.jpg", "alt": "Painting 3" },
-  { "src": "painting-04.jpg", "alt": "Painting 4" },
-  { "src": "painting-05.jpg", "alt": "Painting 5" },
-  { "src": "painting-06.jpg", "alt": "Painting 6" },
-  { "src": "painting-07.jpg", "alt": "Painting 7" },
-  { "src": "painting-08.jpg", "alt": "Painting 8" },
-  { "src": "painting-09.jpg", "alt": "Painting 9" }
+  { "src": "painting-01.jpg" },
+  { "src": "painting-02.jpg" },
+  { "src": "painting-03.jpg" },
+  { "src": "painting-04.jpg" },
+  { "src": "painting-05.jpg" },
+  { "src": "painting-06.jpg" },
+  { "src": "painting-07.jpg" },
+  { "src": "painting-08.jpg" },
+  { "src": "painting-09.jpg" }
 ]
