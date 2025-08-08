@@ -7,35 +7,17 @@ body {
 }
 
 header {
-  background-color: #fff;
-  padding: 1rem;
   text-align: center;
-  border-bottom: 1px solid #ddd;
+  padding: 2rem;
 }
 
 header h1 {
+  font-size: 2.5rem;
   margin: 0;
-  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-nav ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-nav a {
-  text-decoration: none;
-  color: #333;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-/* ===== HERO SECTION ===== */
 .hero {
   position: relative;
   height: 60vh;
@@ -43,54 +25,47 @@ nav a:hover {
   align-items: center;
   justify-content: center;
   color: #fff;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  background: url('/images/IMG_0922.jpeg?v=11') center/cover no-repeat;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  background: url('/assets/images/F8502B01-AAE2-4C9E-8E20-F1FF3F1DB6C6.jpeg?v=2') center/cover no-repeat;
 }
 
-.hero h1 {
-  font-size: 3rem;
-}
-
-/* ===== GALLERY SECTION ===== */
-.gallery {
+.gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .gallery-item {
-  border: 1px solid #ddd;
   background: #fff;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
 }
 
 .gallery-item img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   display: block;
 }
 
 .gallery-item h3 {
-  margin: 0.5rem 0 0;
-  font-size: 1rem;
+  margin: 0.5rem;
+  font-size: 1.2rem;
 }
 
 .gallery-item p {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
+  margin: 0.5rem;
   color: #666;
 }
 
-/* ===== FOOTER ===== */
 footer {
-  background-color: #f8f8f8;
   text-align: center;
   padding: 1rem;
-  margin-top: 2rem;
-  font-size: 0.9rem;
+  background: #f4f4f4;
   color: #666;
 }
