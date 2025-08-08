@@ -1,44 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact &mdash; Michael Corra</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact — Michael Corra</title>
+  <meta name="description" content="Contact information for Michael Corra.">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <!-- Navigation -->
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="/index.html">Michael Corra</a>
+      <nav>
+        <span class="burger" aria-label="menu">☰</span>
+        <div class="menu">
+          <a href="/gallery.html">Gallery</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <!-- Contact details and form -->
-  <section class="section">
-    <h2>Contact</h2>
-    <div class="contact-info">
-      <h3>Get in touch</h3>
-      <p>
-        I love hearing from fellow art lovers and potential collaborators.
-        Feel free to email me with any enquiries about my work or upcoming
-        exhibitions.
-      </p>
-      <p>Email: <a href="mailto:mcorra888@gmail.com">mcorra888@gmail.com</a></p>
-    </div>
-  </section>
+  <main class="container">
+    <h1>Contact</h1>
+    <p>Email: <a href="mailto:mcorra8@hotmail.com">mcorra8@hotmail.com</a></p>
+    <p>Instagram: <a href="https://instagram.com/michael_corra_" target="_blank" rel="noopener">@michael_corra_</a></p>
+  </main>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; <span id="year"></span> Michael Corra. All rights reserved.</p>
-  </footer>
+  <footer class="footer"><div class="container">© <span id="year"></span> Michael Corra</div></footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
