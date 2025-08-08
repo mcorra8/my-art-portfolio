@@ -1,11 +1,36 @@
-// Gallery + single work page renderer (cache-busted)
+// Gallery + single work page with smart extension fallback
 (function () {
-  const V = '17'; // bump this if you still see caching
+  const V = '18'; // bump if you still see cached content
 
   async function loadList() {
     const res = await fetch(`/images/images.json?v=${V}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('images.json failed to load');
     return res.json();
+  }
+
+  // Try .jpeg, then .jpg, then .JPG automatically if the first 404s
+  function setSrcWithFallback(img, basePathNoExt) {
+    const attempts = [
+      `${basePathNoExt}.jpeg`,
+      `${basePathNoExt}.jpg`,
+      `${basePathNoExt}.JPG`
+    ];
+    let i = 0;
+    const tryNext = () => {
+      if (i >= attempts.length) return;
+      img.src = `${attempts[i]}?v=${V}`;
+      img.onerror = () => {
+        i += 1;
+        if (i < attempts.length) tryNext();
+      };
+    };
+    tryNext();
+  }
+
+  function filenameWithoutExt(name) {
+    // strip last dot + extension
+    const p = name.lastIndexOf('.');
+    return p > -1 ? name.slice(0, p) : name;
   }
 
   function renderGrid(selector, items) {
@@ -21,18 +46,12 @@
       a.href = `/work.html?i=${i}&v=${V}`;
 
       const img = document.createElement('img');
-      // add cache-buster to the image file itself
-      img.src = `/images/${it.src}?v=${V}`;
       img.alt = it.alt || `Painting ${i + 1}`;
       img.loading = 'lazy';
       img.decoding = 'async';
 
-      // helpful: if an image fails, show which filename broke
-      img.addEventListener('error', () => {
-        console.error('Missing file:', it.src);
-        img.style.opacity = '0.2';
-        img.title = `Missing: ${it.src}`;
-      });
+      // set src with fallback for extension mismatches
+      setSrcWithFallback(img, `/images/${filenameWithoutExt(it.src)}`);
 
       a.appendChild(img);
       card.appendChild(a);
@@ -49,13 +68,10 @@
     if (!it) return;
 
     const img = document.createElement('img');
-    img.src = `/images/${it.src}?v=${V}`;
     img.alt = it.alt || `Painting ${idx + 1}`;
     img.loading = 'eager';
 
-    img.addEventListener('error', () => {
-      console.error('Missing file (work page):', it.src);
-    });
+    setSrcWithFallback(img, `/images/${filenameWithoutExt(it.src)}`);
 
     wrap.appendChild(img);
   }
@@ -63,9 +79,9 @@
   document.addEventListener('DOMContentLoaded', async () => {
     try {
       const items = await loadList();
-      renderGrid('#selected-grid', items); // home
+      renderGrid('#selected-grid', items); // home (if present)
       renderGrid('#gallery-grid', items);  // gallery
-      renderWork(items);                   // work page
+      renderWork(items);                   // single work page
     } catch (e) {
       console.error(e);
     }
