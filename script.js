@@ -1,12 +1,6 @@
-/* Michael Corra — bulletproof gallery + large view
-   - Reads images/images.json
-   - Renders home (#selected-grid) and gallery (#gallery-grid)
-   - Click opens work.html?i=<index>
-   - Handles .jpg/.jpeg/.JPG mismatch
-   - Uses RELATIVE paths (no leading /)
-*/
+ /* Gallery + single-work (reads images.json, no hard-coded names) */
 (function () {
-  const V = '32'; // bump to bust cache
+  const V = '33'; // bump to bust cache
 
   async function loadList() {
     const res = await fetch(`images/images.json?v=${V}`, { cache: 'no-store' });
@@ -15,6 +9,7 @@
   }
 
   function setWithFallback(img, filename) {
+    // exact name from JSON first, then common extension fallbacks
     const dot = filename.lastIndexOf('.');
     const base = dot > -1 ? filename.slice(0, dot) : filename;
     const tries = [filename, `${base}.jpg`, `${base}.jpeg`, `${base}.JPG`];
@@ -34,13 +29,11 @@
       const a = document.createElement('a');
       a.className = 'card';
       a.href = `work.html?i=${i}&v=${V}`;
-
       const img = document.createElement('img');
       img.alt = it.alt || `Painting ${i + 1}`;
       img.loading = 'lazy';
       img.decoding = 'async';
       setWithFallback(img, it.src);
-
       a.appendChild(img);
       target.appendChild(a);
     });
@@ -50,8 +43,8 @@
     if (!target) return;
     const idx = parseInt(new URLSearchParams(location.search).get('i') || '0', 10);
     const it = items[idx];
-    if (!it) { target.textContent = 'Artwork not found.'; return; }
     target.innerHTML = '';
+    if (!it) { target.textContent = 'Artwork not found.'; return; }
     const img = document.createElement('img');
     img.alt = it.alt || `Painting ${idx + 1}`;
     setWithFallback(img, it.src);
@@ -61,16 +54,9 @@
   document.addEventListener('DOMContentLoaded', async () => {
     try {
       const items = await loadList();
-
-      // support both IDs in case markup differs
-      const homeGrid = document.querySelector('#selected-grid');
-      if (homeGrid) renderGrid(homeGrid, items.slice(0, 6));
-
-      const galleryGrid = document.querySelector('#gallery-grid') || document.querySelector('#galleryGrid');
-      if (galleryGrid) renderGrid(galleryGrid, items);
-
-      const workWrap = document.querySelector('.work');
-      if (workWrap) renderWork(workWrap, items);
+      renderGrid(document.querySelector('#selected-grid'), items.slice(0, 6)); // home preview
+      renderGrid(document.querySelector('#gallery-grid'), items);              // gallery
+      renderWork(document.querySelector('.work'), items);                      // large view
     } catch (e) {
       console.error(e);
     }
