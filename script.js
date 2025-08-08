@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function render(selector, items) {
     const grid = document.querySelector(selector);
-    if (!grid) return; // page might not have this grid
+    if (!grid) return;
     items.forEach(it => {
       const card = document.createElement('div');
       card.className = 'card';
@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     const items = await getItems();
-    render('#gallery-grid', items);   // gallery.html
-    render('#selected-grid', items);  // index.html (home)
+    render('#gallery-grid', items);
+    render('#selected-grid', items);
   } catch (e) {
     console.error('Could not load images.json', e);
   }
