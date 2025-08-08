@@ -1,32 +1,78 @@
-<!-- /script.js -->
-<script>
-// Build gallery from images.json and link each card to work.html?i=N
-(async function () {
-  const grid = document.getElementById('galleryGrid');
-  if (!grid) return;
+/* Michael Corra — bulletproof gallery + large view
+   - Reads images/images.json
+   - Renders home (#selected-grid) and gallery (#gallery-grid)
+   - Click opens work.html?i=<index>
+   - Handles .jpg/.jpeg/.JPG mismatch
+   - Uses RELATIVE paths (no leading /)
+*/
+(function () {
+  const V = '32'; // bump to bust cache
 
-  try {
-    const res = await fetch('images/images.json?v=' + Date.now());
-    const items = await res.json();
+  async function loadList() {
+    const res = await fetch(`images/images.json?v=${V}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('images.json not found');
+    return res.json();
+  }
 
-    grid.innerHTML = '';
+  function setWithFallback(img, filename) {
+    const dot = filename.lastIndexOf('.');
+    const base = dot > -1 ? filename.slice(0, dot) : filename;
+    const tries = [filename, `${base}.jpg`, `${base}.jpeg`, `${base}.JPG`];
+    let i = 0;
+    const go = () => {
+      if (i >= tries.length) return;
+      img.src = `images/${tries[i]}?v=${V}`;
+      img.onerror = () => { i += 1; go(); };
+    };
+    go();
+  }
 
-    items.forEach((item, idx) => {
+  function renderGrid(target, items) {
+    if (!target) return;
+    target.innerHTML = '';
+    items.forEach((it, i) => {
       const a = document.createElement('a');
       a.className = 'card';
-      a.href = 'work.html?i=' + (idx + 1); // 1-based for humans
+      a.href = `work.html?i=${i}&v=${V}`;
 
       const img = document.createElement('img');
+      img.alt = it.alt || `Painting ${i + 1}`;
       img.loading = 'lazy';
-      img.alt = item.alt || ('Painting ' + (idx + 1));
-      img.src = 'images/' + item.src; // src is like "painting-01.jpg"
-      a.appendChild(img);
+      img.decoding = 'async';
+      setWithFallback(img, it.src);
 
-      grid.appendChild(a);
+      a.appendChild(img);
+      target.appendChild(a);
     });
-  } catch (e) {
-    console.error('Failed loading images.json', e);
-    if (grid) grid.textContent = 'Unable to load images.';
   }
+
+  function renderWork(target, items) {
+    if (!target) return;
+    const idx = parseInt(new URLSearchParams(location.search).get('i') || '0', 10);
+    const it = items[idx];
+    if (!it) { target.textContent = 'Artwork not found.'; return; }
+    target.innerHTML = '';
+    const img = document.createElement('img');
+    img.alt = it.alt || `Painting ${idx + 1}`;
+    setWithFallback(img, it.src);
+    target.appendChild(img);
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const items = await loadList();
+
+      // support both IDs in case markup differs
+      const homeGrid = document.querySelector('#selected-grid');
+      if (homeGrid) renderGrid(homeGrid, items.slice(0, 6));
+
+      const galleryGrid = document.querySelector('#gallery-grid') || document.querySelector('#galleryGrid');
+      if (galleryGrid) renderGrid(galleryGrid, items);
+
+      const workWrap = document.querySelector('.work');
+      if (workWrap) renderWork(workWrap, items);
+    } catch (e) {
+      console.error(e);
+    }
+  });
 })();
-</script>
