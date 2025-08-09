@@ -22,7 +22,23 @@
     <div id="gallery-grid" class="gallery-grid"></div>
   </main>
 
-  <!-- This script include is REQUIRED -->
+  <!-- Existing script that builds the gallery -->
   <script src="script.js?v=43" defer></script>
+
+  <!-- NEW: swap 1st and 4th gallery items after the gallery renders -->
+  <script defer>
+    window.addEventListener('load', function () {
+      var grid = document.getElementById('gallery-grid');
+      if (!grid) return;
+      var items = Array.from(grid.children);
+      if (items.length >= 4) {
+        // Move original 4th to the front
+        grid.insertBefore(items[3], grid.firstChild);
+        // Put original 1st into the 4th position (or append if only 4 items)
+        var ref = grid.children[4] || null; // null => append to end
+        grid.insertBefore(items[0], ref);
+      }
+    });
+  </script>
 </body>
 </html>
