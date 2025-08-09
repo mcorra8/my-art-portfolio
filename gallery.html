@@ -18,27 +18,59 @@
 
   <main class="container">
     <h1 class="visually-hidden">Gallery</h1>
-    <!-- This container is REQUIRED so JS can render thumbnails -->
     <div id="gallery-grid" class="gallery-grid"></div>
   </main>
 
-  <!-- Existing script that builds the gallery -->
-  <script src="script.js?v=43" defer></script>
+  <!-- Your existing script that renders the gallery -->
+  <script src="script.js?v=44" defer></script>
 
-  <!-- NEW: swap 1st and 4th gallery items after the gallery renders -->
-  <script defer>
-    window.addEventListener('load', function () {
-      var grid = document.getElementById('gallery-grid');
-      if (!grid) return;
-      var items = Array.from(grid.children);
-      if (items.length >= 4) {
+  <!-- Swap 1st and 4th items AFTER they exist -->
+  <script>
+    (function () {
+      function swapOnce() {
+        var grid = document.getElementById('gallery-grid');
+        if (!grid) return false;
+        var items = grid.children;
+        if (items.length < 4) return false;
+
+        // Capture current nodes before reordering
+        var first = items[0];
+        var fourth = items[3];
+
         // Move original 4th to the front
-        grid.insertBefore(items[3], grid.firstChild);
-        // Put original 1st into the 4th position (or append if only 4 items)
-        var ref = grid.children[4] || null; // null => append to end
-        grid.insertBefore(items[0], ref);
+        grid.insertBefore(fourth, first);
+
+        // Put original 1st into the 4th position (index 4 after previous insert)
+        var ref = grid.children[4] || null; // null -> append
+        grid.insertBefore(first, ref);
+        return true;
       }
-    });
+
+      // Try on load in case everything is ready
+      window.addEventListener('load', function () {
+        if (swapOnce()) return;
+
+        // If not ready, observe until at least 4 items exist, then swap once
+        var grid = document.getElementById('gallery-grid');
+        if (!grid) return;
+        var done = false;
+        var obs = new MutationObserver(function () {
+          if (!done && swapOnce()) {
+            done = true;
+            obs.disconnect();
+          }
+        });
+        obs.observe(grid, { childList: true });
+
+        // Fallback: try again after 2 seconds
+        setTimeout(function () {
+          if (!done) {
+            done = swapOnce();
+            if (done) obs.disconnect();
+          }
+        }, 2000);
+      });
+    })();
   </script>
 </body>
 </html>
