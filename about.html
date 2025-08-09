@@ -4,25 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About — Michael Corra</title>
-  <link rel="stylesheet" href="styles.css?v=1" />
+  <link rel="stylesheet" href="styles.css?v=43" />
 </head>
 <body>
   <header class="site-header">
     <a class="site-title" href="index.html">Michael Corra</a>
     <nav class="site-nav">
       <a href="gallery.html">Gallery</a>
-      <a href="about.html" class="active">About</a>
+      <a href="about.html" aria-current="page">About</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
 
   <main class="container">
     <h1>About</h1>
-    <p>Michael Corra is an American artist based in South Korea. He works with materials in their most direct form, letting color and texture lead rather than over-planning. Many of his paintings embrace the flaws of the process: visible brushstrokes, unpolished edges, and surfaces that show their making.</p>
-
-    <p>Corra thinks through making — allowing ideas to develop in real time, in response to what’s happening on the surface. This openness keeps his process responsive rather than fixed. Most of his pieces are presented in frames he builds himself from found materials. These frames, often marked by their own histories and imperfections, extend the spirit of the paintings — blurring the line between artwork and object, and making each piece a singular, self-contained presence.</p>
-
-    <p>In both his painting and framing, Corra works in the space between control and unpredictability, letting the finished work emerge as a conversation between chance and intention.</p>
+    <div class="about-text">
+      <p>
+        I work with materials in their most direct form, letting color and texture lead me rather than over-planning. Many of my paintings embrace the flaws of the process—visible brushstrokes, unpolished edges, and surfaces that reveal their making. I often think through making, letting each decision respond to what’s happening on the canvas in real time. Most of my work involves building my own frames from found materials, a choice that becomes part of the work’s meaning and physical presence. For me, painting is a conversation between chance and intention, where the process is as alive as the finished piece.
+      </p>
+    </div>
   </main>
+
+  <footer>
+    &copy; <span id="year"></span> Michael Corra. All rights reserved.
+  </footer>
+
+  <script>
+    // Auto-update year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
